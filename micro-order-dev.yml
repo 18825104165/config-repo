@@ -1,0 +1,37 @@
+servet:
+  port: 8086
+
+spring:
+  application:
+    name: micro-order
+  cloud:
+    config:
+      label: master
+      discovery:
+        enabled: true
+        service-id: config-server
+      # 连接不上快速响应失败
+      fail-fast: true
+      retry:
+        # 重试间隔
+        multiplier: 1000
+        # 最大间隔时间
+        max-interval: 2000
+        # 最大重试次数
+        max-attempts: 6
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:admin@localhost:8763/eureka/
+        # 表示eureka client 间隔多久去拉取服务注册信息，默认为30秒
+      registry-fetch-interval-seconds: 30
+    instance:
+      # 服务续约，心跳间隔时间，默认为30秒
+      lease-renewal-interval-in-seconds: 30
+      # 多久没接收心跳后，就剔除服务，默认位为0秒
+      lease-expiration-duration-in-seconds: 90
+
+feign:
+  hystrix:
+    enabled: true
